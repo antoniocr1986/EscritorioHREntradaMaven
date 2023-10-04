@@ -1,0 +1,2 @@
+admin: gus 123
+normal: antonio 12345678
