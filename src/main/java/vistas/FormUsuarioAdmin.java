@@ -26,7 +26,7 @@ public class FormUsuarioAdmin extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButtonAtras = new javax.swing.JButton();
+        jButtonLogoutAdminSession = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -36,10 +36,10 @@ public class FormUsuarioAdmin extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("TE HAS LOGUEADO COMO ADMIN!!");
 
-        jButtonAtras.setText("ATRAS");
-        jButtonAtras.addActionListener(new java.awt.event.ActionListener() {
+        jButtonLogoutAdminSession.setText("Logout Admin Session");
+        jButtonLogoutAdminSession.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAtrasActionPerformed(evt);
+                jButtonLogoutAdminSessionActionPerformed(evt);
             }
         });
 
@@ -53,7 +53,7 @@ public class FormUsuarioAdmin extends javax.swing.JFrame {
                 .addContainerGap(61, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonAtras)
+                .addComponent(jButtonLogoutAdminSession)
                 .addGap(200, 200, 200))
         );
         jPanel1Layout.setVerticalGroup(
@@ -62,7 +62,7 @@ public class FormUsuarioAdmin extends javax.swing.JFrame {
                 .addContainerGap(143, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(83, 83, 83)
-                .addComponent(jButtonAtras)
+                .addComponent(jButtonLogoutAdminSession)
                 .addGap(35, 35, 35))
         );
 
@@ -80,10 +80,14 @@ public class FormUsuarioAdmin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtrasActionPerformed
+    private void jButtonLogoutAdminSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogoutAdminSessionActionPerformed
         // TODO add your handling code here:
     this.dispose();
-    }//GEN-LAST:event_jButtonAtrasActionPerformed
+    MainForm mainForm = new MainForm();
+    mainForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    mainForm.setLocation(mainForm.getX(),mainForm.getY());
+    mainForm.setVisible(true); 
+    }//GEN-LAST:event_jButtonLogoutAdminSessionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -122,7 +126,7 @@ public class FormUsuarioAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonAtras;
+    private javax.swing.JButton jButtonLogoutAdminSession;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

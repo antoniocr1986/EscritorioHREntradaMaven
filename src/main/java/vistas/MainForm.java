@@ -16,8 +16,24 @@ public class MainForm extends javax.swing.JFrame {
     int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
     int windowWidth = 400; // Ancho de la ventana
     int windowHeight = 300; // Alto de la ventana
-    int x = (screenWidth-windowWidth)/2;
-    int y = (screenHeight-windowWidth)/2;
+    private int x = (screenWidth-windowWidth)/2;
+    private int y = (screenHeight-windowWidth)/2;
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
     
     /**
      * Creates new form MainForm
@@ -145,12 +161,14 @@ public class MainForm extends javax.swing.JFrame {
             if (conexion.verificarCredenciales(jTextPaneUsuario.getText(),jPasswordField.getText())) {
                 conexion.logInSockets(jTextPaneUsuario.getText(),jPasswordField.getText());
                 if (conexion.isAdmin(jTextPaneUsuario.getText(),jPasswordField.getText())){
+                    dispose();
                     FormUsuarioAdmin ventanaSecundaria = new FormUsuarioAdmin ();
                     ventanaSecundaria.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     ventanaSecundaria.setLocation(x,y);
                     ventanaSecundaria.setVisible(true);  
                     
                 }else{
+                    dispose();
                     FormUsuario ventanaSecundaria = new FormUsuario ();
                     ventanaSecundaria.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     ventanaSecundaria.setLocation(x,y);

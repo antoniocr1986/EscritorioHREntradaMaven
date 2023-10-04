@@ -1,5 +1,7 @@
 package vistas;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author antonio minero
@@ -24,11 +26,19 @@ public class FormUsuario extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabelFormUsuario = new javax.swing.JLabel();
+        jButtonLogoutSession = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabelFormUsuario.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabelFormUsuario.setText("TE HAS LOGUEADO COMO USUARIO!");
+
+        jButtonLogoutSession.setText("Logout Session");
+        jButtonLogoutSession.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLogoutSessionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -38,13 +48,19 @@ public class FormUsuario extends javax.swing.JFrame {
                 .addContainerGap(56, Short.MAX_VALUE)
                 .addComponent(jLabelFormUsuario)
                 .addGap(43, 43, 43))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(203, 203, 203)
+                .addComponent(jButtonLogoutSession)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(138, 138, 138)
                 .addComponent(jLabelFormUsuario)
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                .addComponent(jButtonLogoutSession)
+                .addGap(30, 30, 30))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -60,6 +76,15 @@ public class FormUsuario extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonLogoutSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogoutSessionActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        MainForm mainForm = new MainForm();
+        mainForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        mainForm.setLocation(mainForm.getX(),mainForm.getY());
+        mainForm.setVisible(true); 
+    }//GEN-LAST:event_jButtonLogoutSessionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -97,6 +122,7 @@ public class FormUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonLogoutSession;
     private javax.swing.JLabel jLabelFormUsuario;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
