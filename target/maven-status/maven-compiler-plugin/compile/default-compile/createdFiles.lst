@@ -1,7 +1,3 @@
-Controller\MainApp.class
-Model\User.class
-Controller\Controller.class
-View\MainWindow.class
-Controller\ButtonClickListener.class
-View\ButtonClickListener.class
-Model\Worker.class
+ejemplo\MainForm.class
+EjBlog2.class
+ejemplo\MainForm$1.class
