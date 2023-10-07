@@ -12,6 +12,7 @@ public class FormUsuarioAdmin extends javax.swing.JFrame {
      * Creates new form Form2
      */
     public FormUsuarioAdmin() {
+        this.setTitle("Logeado como administrador");
         initComponents();
     }
 

@@ -12,6 +12,7 @@ public class FormUsuario extends javax.swing.JFrame {
      * Creates new form FormUsuario
      */
     public FormUsuario() {
+        this.setTitle("Logeado como usuario");
         initComponents();
     }
 

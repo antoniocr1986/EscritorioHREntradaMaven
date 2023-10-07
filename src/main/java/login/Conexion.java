@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -22,37 +23,42 @@ import java.util.ArrayList;
  *
  * @author antonio minero
  */
-public class CConexion {
-    Connection conectar = null;
+public class Conexion {
+    Connection conn = null;
     
-    String usuario = "admin";
-    String contraseña = "admin";
+    String user = "admin";
+    String password = "admin";
     String bd ="HREntrada2";
-    String ip = "localhost";
     String puerto ="5432";
-    
+    String ip = "";
     String admin = "gus";
     
-    String connectionString = "jdbc:postgresql://"+ip+":"+puerto+"/"+bd;
+    //String connectionString = "jdbc:postgresql://"+ip+":"+puerto+"/"+bd;
     
     // Crear un ArrayList de objetos User
     private static ArrayList<User> userList = new ArrayList<>();
+
+    public Conexion(String ip) {
+        this.ip = ip;
+    }
     
-    public Connection establecerConexion(){
+    
+    
+    public Connection getConexion(){
         try{
             Class.forName("org.postgresql.Driver");
-            conectar = DriverManager.getConnection(connectionString,usuario,contraseña);
+            conn = DriverManager.getConnection("jdbc:postgresql://"+this.ip+":"+puerto+"/"+bd,user,password);
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null,"Error al conectar a la BD, error: "+ex.toString());          
         }     
-        return conectar;
+        return conn;
     }
     
     public boolean verificarCredenciales(String usuario, String contrasena) {
         try {
-            // Consulta SQL para buscar un usuario con las credenciales proporcionadas
+            // Consulta SQL para buscar un user con las credenciales proporcionadas
             String sql = "SELECT * FROM users WHERE login = ? AND pass = ?";
-            PreparedStatement statement = conectar.prepareStatement(sql);
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, usuario);
             statement.setString(2, contrasena);
             ResultSet resultSet = statement.executeQuery();
@@ -122,7 +128,7 @@ public class CConexion {
     public void logInSockets(String usuario, String contraseña){
        userList.add(new User (usuario,contraseña));
        
-       //Ahora querremo enviar este usuario creado al logearnos por sockets al servidor
+       //Ahora querremo enviar este user creado al logearnos por sockets al servidor
        for (User user: userList){
            JOptionPane.showMessageDialog(null,"Usuario creado como objeto: "+user.toString());
            JOptionPane.showMessageDialog(null,"Nombre: "+user.getLogin()+"\nPassword: "+user.getPass());

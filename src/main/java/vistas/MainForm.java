@@ -3,7 +3,7 @@ package vistas;
 import java.awt.Toolkit;
 import java.sql.Connection;
 import javax.swing.*;
-import login.CConexion;
+import login.Conexion;
 
 
 /**
@@ -40,6 +40,7 @@ public class MainForm extends javax.swing.JFrame {
      */
     public MainForm() {
         this.setLocation(x,y);
+        this.setTitle("Ventana Login usuarios");
         initComponents();        
     }
 
@@ -57,9 +58,10 @@ public class MainForm extends javax.swing.JFrame {
         jButtonCancelar = new javax.swing.JButton();
         jLabelUsuario = new javax.swing.JLabel();
         jLabelContraseña = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPaneUsuario = new javax.swing.JTextPane();
         jPasswordField = new javax.swing.JPasswordField();
+        jTextFieldUsuario = new javax.swing.JTextField();
+        jLabelServidorIP = new javax.swing.JLabel();
+        jTextFieldIPServidor = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(331, 267));
@@ -68,7 +70,6 @@ public class MainForm extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setMaximumSize(new java.awt.Dimension(1920, 1080));
         jPanel1.setMinimumSize(new java.awt.Dimension(331, 262));
-        jPanel1.setNextFocusableComponent(jTextPaneUsuario);
 
         jButtonConfirmar.setText("CONFIRMAR");
         jButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
@@ -88,7 +89,7 @@ public class MainForm extends javax.swing.JFrame {
 
         jLabelContraseña.setText("Contraseña");
 
-        jScrollPane1.setViewportView(jTextPaneUsuario);
+        jLabelServidorIP.setText("IP Servidor");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -96,51 +97,58 @@ public class MainForm extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButtonConfirmar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                        .addComponent(jButtonCancelar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelUsuario)
-                            .addComponent(jLabelContraseña))
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                            .addComponent(jPasswordField))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelUsuario)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jButtonConfirmar)
+                            .addGap(79, 79, 79)
+                            .addComponent(jButtonCancelar))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabelContraseña)
+                            .addGap(23, 23, 23)
+                            .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabelServidorIP)
+                            .addGap(27, 27, 27)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+                                .addComponent(jTextFieldIPServidor)))))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelUsuario)
-                        .addGap(33, 33, 33))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)))
+                .addContainerGap(44, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelServidorIP)
+                    .addComponent(jTextFieldIPServidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelUsuario)
+                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelContraseña)
                     .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(79, 79, 79)
+                .addGap(70, 70, 70)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonConfirmar)
                     .addComponent(jButtonCancelar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(26, 26, 26))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -148,52 +156,55 @@ public class MainForm extends javax.swing.JFrame {
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         // TODO add your handling code here:
-        jTextPaneUsuario.setText("");
+        jTextFieldUsuario.setText("");
         jPasswordField.setText("");
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
         // TODO add your handling code here:
-       if (!jTextPaneUsuario.getText().equals("") && !jPasswordField.getText().equals("")) {
+        if (jTextFieldIPServidor.getText().isEmpty()||jTextFieldIPServidor.getText().isBlank()||jTextFieldIPServidor.getText() =="" ){
+               JOptionPane.showMessageDialog(null, 
+                         "Rellena el campo IP.");
+        }else{
+            if (!jTextFieldUsuario.getText().equals("") && !jPasswordField.getText().equals("")) {
 
-            CConexion conexion = new CConexion();
-            Connection dbConnection = conexion.establecerConexion();
-            if (conexion.verificarCredenciales(jTextPaneUsuario.getText(),jPasswordField.getText())) {
-                conexion.logInSockets(jTextPaneUsuario.getText(),jPasswordField.getText());
-                if (conexion.isAdmin(jTextPaneUsuario.getText(),jPasswordField.getText())){
-                    dispose();
-                    FormUsuarioAdmin ventanaSecundaria = new FormUsuarioAdmin ();
-                    ventanaSecundaria.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    ventanaSecundaria.setLocation(x,y);
-                    ventanaSecundaria.setVisible(true);  
-                    
-                }else{
-                    dispose();
-                    FormUsuario ventanaSecundaria = new FormUsuario ();
-                    ventanaSecundaria.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    ventanaSecundaria.setLocation(x,y);
-                    ventanaSecundaria.setVisible(true);  
-                }
-                                  
+                Conexion conexion = new Conexion(jTextFieldIPServidor.getText());
+
+                Connection dbConnection = conexion.getConexion();
+                if (conexion.verificarCredenciales(jTextFieldUsuario.getText(),jPasswordField.getText())) {
+                    conexion.logInSockets(jTextFieldUsuario.getText(),jPasswordField.getText());
+                    if (conexion.isAdmin(jTextFieldUsuario.getText(),jPasswordField.getText())){
+                        dispose();
+                        FormUsuarioAdmin ventanaSecundaria = new FormUsuarioAdmin ();
+                        ventanaSecundaria.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        ventanaSecundaria.setLocation(x,y);
+                        ventanaSecundaria.setVisible(true);  
+
+                    }else{
+                        dispose();
+                        FormUsuario ventanaSecundaria = new FormUsuario ();
+                        ventanaSecundaria.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        ventanaSecundaria.setLocation(x,y);
+                        ventanaSecundaria.setVisible(true);  
+                    }
+                }                    
             } else {
                 JOptionPane.showMessageDialog(null, "Credenciales inválidas");
             }   
-        }
-        else{
-           if(jTextPaneUsuario.getText().isEmpty()&& jPasswordField.getText().isEmpty()){
-           JOptionPane.showMessageDialog(null, 
-                         "Rellena los campos Usuario y Contraseña");
-           }
-           else{
-               if (jTextPaneUsuario.getText().isEmpty()){
-                JOptionPane.showMessageDialog(null, 
-                         "Rellena el campo de Usuario.");
+            if(jTextFieldUsuario.getText().isEmpty()&& jPasswordField.getText().isEmpty()){
+        JOptionPane.showMessageDialog(null, 
+                      "Rellena los campos Usuario y Contraseña");
+             }
+             else{
+                if (jTextFieldUsuario.getText().isEmpty()){
+                 JOptionPane.showMessageDialog(null, 
+                          "Rellena el campo de Usuario.");
+                 }
+                 if ( jPasswordField.getText().isEmpty()){
+                     JOptionPane.showMessageDialog(null, 
+                              "Rellena el campo de Contraseña.");
                 }
-                if ( jPasswordField.getText().isEmpty()){
-                    JOptionPane.showMessageDialog(null, 
-                             "Rellena el campo de Contraseña.");
-                }
-            }
+            }            
         }
     }//GEN-LAST:event_jButtonConfirmarActionPerformed
 
@@ -236,10 +247,11 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonConfirmar;
     private javax.swing.JLabel jLabelContraseña;
+    private javax.swing.JLabel jLabelServidorIP;
     private javax.swing.JLabel jLabelUsuario;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextPane jTextPaneUsuario;
+    private javax.swing.JTextField jTextFieldIPServidor;
+    private javax.swing.JTextField jTextFieldUsuario;
     // End of variables declaration//GEN-END:variables
 }
