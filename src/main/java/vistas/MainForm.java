@@ -41,6 +41,8 @@ public class MainForm extends javax.swing.JFrame {
     public MainForm() {
         this.setLocation(x,y);
         this.setTitle("Ventana Login usuarios");
+        //ImageIcon icono = new ImageIcon(getClass().getResource("/img/HREntrada.jpg"));
+        //setIconImage(icono.getImage());
         initComponents();        
     }
 
