@@ -94,6 +94,8 @@ public class MainForm extends javax.swing.JFrame {
 
         jLabelServidorIP.setText("IP Servidor");
 
+        jCheckBoxVerContraseña.setBackground(new java.awt.Color(102, 102, 102));
+        jCheckBoxVerContraseña.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBoxVerContraseña.setText("Ver contraseña");
         jCheckBoxVerContraseña.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,28 +186,29 @@ public class MainForm extends javax.swing.JFrame {
                 Conexion conexion = new Conexion(jTextFieldIPServidor.getText());
 
                 Connection dbConnection = conexion.getConexion();
-                if (conexion.verificarCredenciales(jTextFieldUsuario.getText(),jPasswordField.getText())) {
-                    conexion.logInSockets(jTextFieldUsuario.getText(),jPasswordField.getText());
-                    if (conexion.isAdmin(jTextFieldUsuario.getText(),jPasswordField.getText())){
-                        dispose();
-                        FormUsuarioAdmin ventanaSecundaria = new FormUsuarioAdmin ();
-                        ventanaSecundaria.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        ventanaSecundaria.setLocation(x,y);
-                        ventanaSecundaria.setVisible(true);  
+                             
+                if (conexion.verificarCredenciales(jTextFieldUsuario.getText(),jPasswordField.getText())==456){
+                    dispose();
+                    conexion.logInSockets(jTextFieldUsuario.getText(),jPasswordField.getText()); //Para mostrar datos de los objetos creados
+                    FormUsuarioAdmin ventanaSecundaria = new FormUsuarioAdmin ();
+                    ventanaSecundaria.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    ventanaSecundaria.setLocation(x,y);
+                    ventanaSecundaria.setVisible(true);  
 
-                    }else{
-                        dispose();
-                        FormUsuario ventanaSecundaria = new FormUsuario ();
-                        ventanaSecundaria.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        ventanaSecundaria.setLocation(x,y);
-                        ventanaSecundaria.setVisible(true);  
-                    }
-                }                    
-            } else {
+                }else if(conexion.verificarCredenciales(jTextFieldUsuario.getText(),jPasswordField.getText())==0){
+                    dispose();
+                    conexion.logInSockets(jTextFieldUsuario.getText(),jPasswordField.getText()); //Para mostrar datos de los objetos creados
+                    FormUsuario ventanaSecundaria = new FormUsuario ();
+                    ventanaSecundaria.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    ventanaSecundaria.setLocation(x,y);
+                    ventanaSecundaria.setVisible(true);  
+                }else {
                 JOptionPane.showMessageDialog(null, "Credenciales inválidas");
-            }   
+                }  
+                             
+              
             if(jTextFieldUsuario.getText().isEmpty()&& jPasswordField.getText().isEmpty()){
-        JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null, 
                       "Rellena los campos Usuario y Contraseña");
              }
              else{
@@ -217,10 +220,10 @@ public class MainForm extends javax.swing.JFrame {
                      JOptionPane.showMessageDialog(null, 
                               "Rellena el campo de Contraseña.");
                 }
-            }            
+            }             
         }
     }//GEN-LAST:event_jButtonConfirmarActionPerformed
-
+    }
     private void jCheckBoxVerContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxVerContraseñaActionPerformed
         // TODO add your handling code here:
         if (jCheckBoxVerContraseña.isSelected()) {

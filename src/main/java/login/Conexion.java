@@ -31,7 +31,12 @@ public class Conexion {
     String bd ="HREntrada2";
     String puerto ="5432";
     String ip = "";
-    String admin = "gus";
+    String admin = "gus"; //Substituir por datos en BD del user admin
+    
+    //  predefined codes
+    private static final int SESSION_CODE = 456;  //usuario admin
+    public static final int OK_RETURN_CODE = 0; //usuario
+    public static final int ERROR_RETURN_CODE = 1;  //no identificado
     
     //String connectionString = "jdbc:postgresql://"+ip+":"+puerto+"/"+bd;
     
@@ -54,7 +59,7 @@ public class Conexion {
         return conn;
     }
     
-    public boolean verificarCredenciales(String usuario, String contrasena) {
+    public int verificarCredenciales(String usuario, String contrasena) {
         try {
             // Consulta SQL para buscar un user con las credenciales proporcionadas
             String sql = "SELECT * FROM users WHERE login = ? AND pass = ?";
@@ -65,20 +70,16 @@ public class Conexion {
 
             // Si se encuentra un resultado, las credenciales son válidas
             if (resultSet.next()) {
-                return true;
+                if (usuario.equals(admin)){
+                    return SESSION_CODE;
+                }else{
+                    return OK_RETURN_CODE;
+                }
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al verificar las credenciales, error: " + ex.toString());
         }
-        return false; // Si no se encuentra ningún resultado, las credenciales no son válidas
-    }
-    
-    public boolean isAdmin(String usuario, String contraseña){
-        if (usuario.equals(admin)){
-            return true;
-        }else{
-            return false;
-        }
+        return ERROR_RETURN_CODE; // Si no se encuentra ningún resultado, las credenciales no son válidas
     }
     
     //***GUS Método para comprobar login por sockets   
@@ -130,8 +131,8 @@ public class Conexion {
        
        //Ahora querremo enviar este user creado al logearnos por sockets al servidor
        for (User user: userList){
-           JOptionPane.showMessageDialog(null,"Usuario creado como objeto: "+user.toString());
-           JOptionPane.showMessageDialog(null,"Nombre: "+user.getLogin()+"\nPassword: "+user.getPass());
+           JOptionPane.showMessageDialog(null,"Usuario creado como objeto: "+user.toString()
+                   +"\nNombre: "+user.getLogin()+"\nPassword: "+user.getPass());
        }     
     }
 }
