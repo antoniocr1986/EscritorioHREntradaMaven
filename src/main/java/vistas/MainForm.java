@@ -55,13 +55,14 @@ public class MainForm extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jButtonConfirmar = new javax.swing.JButton();
-        jButtonCancelar = new javax.swing.JButton();
+        jButtonLimpiar = new javax.swing.JButton();
         jLabelUsuario = new javax.swing.JLabel();
         jLabelContraseña = new javax.swing.JLabel();
         jPasswordField = new javax.swing.JPasswordField();
         jTextFieldUsuario = new javax.swing.JTextField();
         jLabelServidorIP = new javax.swing.JLabel();
         jTextFieldIPServidor = new javax.swing.JTextField();
+        jCheckBoxVerContraseña = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(331, 267));
@@ -78,10 +79,10 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        jButtonCancelar.setText("CANCELAR");
-        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonLimpiar.setText("LIMPIAR");
+        jButtonLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCancelarActionPerformed(evt);
+                jButtonLimpiarActionPerformed(evt);
             }
         });
 
@@ -91,6 +92,13 @@ public class MainForm extends javax.swing.JFrame {
 
         jLabelServidorIP.setText("IP Servidor");
 
+        jCheckBoxVerContraseña.setText("Ver contraseña");
+        jCheckBoxVerContraseña.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxVerContraseñaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -98,12 +106,13 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBoxVerContraseña)
                     .addComponent(jLabelUsuario)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jButtonConfirmar)
                             .addGap(79, 79, 79)
-                            .addComponent(jButtonCancelar))
+                            .addComponent(jButtonLimpiar))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabelContraseña)
                             .addGap(23, 23, 23)
@@ -131,10 +140,12 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelContraseña)
                     .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(70, 70, 70)
+                .addGap(32, 32, 32)
+                .addComponent(jCheckBoxVerContraseña)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonConfirmar)
-                    .addComponent(jButtonCancelar))
+                    .addComponent(jButtonLimpiar))
                 .addGap(26, 26, 26))
         );
 
@@ -154,11 +165,11 @@ public class MainForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+    private void jButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiarActionPerformed
         // TODO add your handling code here:
         jTextFieldUsuario.setText("");
         jPasswordField.setText("");
-    }//GEN-LAST:event_jButtonCancelarActionPerformed
+    }//GEN-LAST:event_jButtonLimpiarActionPerformed
 
     private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
         // TODO add your handling code here:
@@ -208,6 +219,15 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonConfirmarActionPerformed
 
+    private void jCheckBoxVerContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxVerContraseñaActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBoxVerContraseña.isSelected()) {
+            jPasswordField.setEchoChar((char) 0);
+        } else {
+            jPasswordField.setEchoChar('*');
+        }
+    }//GEN-LAST:event_jCheckBoxVerContraseñaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -244,8 +264,9 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonConfirmar;
+    private javax.swing.JButton jButtonLimpiar;
+    private javax.swing.JCheckBox jCheckBoxVerContraseña;
     private javax.swing.JLabel jLabelContraseña;
     private javax.swing.JLabel jLabelServidorIP;
     private javax.swing.JLabel jLabelUsuario;
