@@ -144,8 +144,14 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JPasswordField" name="jPasswordField">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jPasswordFieldKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldUsuario">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldUsuarioKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelServidorIP">
           <Properties>

@@ -1,9 +1,18 @@
 package vistas;
 
 import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
-import login.Conexion;
+import login.ConexionBDLocal;
 
 
 /**
@@ -12,40 +21,108 @@ import login.Conexion;
  */
 public class MainForm extends javax.swing.JFrame {
 
-    int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
-    int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-    int windowWidth = 400; // Ancho de la ventana
-    int windowHeight = 300; // Alto de la ventana
-    private int x = (screenWidth-windowWidth)/2;
-    private int y = (screenHeight-windowWidth)/2;
-
-    public int getX() {
-        return x;
+    public JTextField getjTextFieldIPServidor() {
+        return jTextFieldIPServidor;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public JPasswordField getjPasswordField() {
+        return jPasswordField;
     }
 
-    public int getY() {
-        return y;
+    public void setjPasswordField(JPasswordField jPasswordField) {
+        this.jPasswordField = jPasswordField;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public JTextField getjTextFieldUsuario() {
+        return jTextFieldUsuario;
+    }
+
+    public void setjTextFieldUsuario(JTextField jTextFieldUsuario) {
+        this.jTextFieldUsuario = jTextFieldUsuario;
+    }
+
+    public void setjTextFieldIPServidor(JTextField jTextFieldIPServidor) {
+        this.jTextFieldIPServidor = jTextFieldIPServidor;
     }
     
     /**
      * Creates new form MainForm
      */
     public MainForm() {
-        this.setLocation(x,y);
+        initComponents();
         this.setTitle("Ventana Login usuarios");
-        //ImageIcon icono = new ImageIcon(getClass().getResource("/img/HREntrada.jpg"));
-        //setIconImage(icono.getImage());
-        initComponents();        
+        // Establece la ubicación de la ventana en el centro de la pantalla
+        this.setLocationRelativeTo(null);
+        jCheckBoxVerContraseña.setEnabled(false);
+        jButtonConfirmar.setEnabled(false);
+        jPasswordField.setEnabled(false);              
     }
+    
+    public void conexionSocket(FormUsuarioAdmin adminForm, FormUsuario usuarioForm){
+        boolean salir = false;
 
+        try {
+            //IMPLEMENTA
+            Socket socket = new Socket(jTextFieldIPServidor.getText(), 8888);
+            BufferedReader lector = new BufferedReader(new InputStreamReader(socket.getInputStream()));//flujo lectura del server
+            BufferedWriter escriptor = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));//flujo envio al server
+            
+            ///Llegeix del servidor el mensaje de bienvenida, y la pregunta que nos hace ///           
+            String mensajeServer = lector.readLine();
+            
+            //ahora escribimos en servidor , enviandole la palabra a buscar 
+            String palabra = jTextFieldUsuario.getText();
+            String pass = jPasswordField.getText();
+            String number = null;
+            String codigo = null;
+
+            String login = palabra + "," + pass;
+
+            escriptor.write(login);
+            escriptor.newLine();
+            escriptor.flush();
+
+            mensajeServer = lector.readLine();
+
+            String[] textElements = mensajeServer.split(",");
+            for (int i = 0; i < textElements.length; i++) {
+                palabra = textElements[0];
+                pass = textElements[1];
+                number = textElements[2];
+                codigo = textElements[3];             
+            }
+            
+            //recibimos la respuesta
+            if (palabra.equals(jTextFieldUsuario.getText())
+                    && pass.equals(jPasswordField.getText())
+                    && number.equals("0")) {
+                adminForm.setVisible(true);
+                this.setVisible(salir);
+            } else if (palabra.equals(jTextFieldUsuario.getText())
+                    && pass.equals(jPasswordField.getText())
+                    && number.equals("1")) {
+                usuarioForm.setVisible(true);
+                this.setVisible(salir);
+            }
+            lector.close();
+            escriptor.close();
+            socket.close();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void habilitarBotones() {
+        if (!jTextFieldUsuario.getText().isEmpty() && !jPasswordField.getText().isEmpty()) {
+            jButtonConfirmar.setEnabled(true);
+            jCheckBoxVerContraseña.setEnabled(true);
+        } else {
+            jButtonConfirmar.setEnabled(false);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -91,6 +168,18 @@ public class MainForm extends javax.swing.JFrame {
         jLabelUsuario.setText("Usuario");
 
         jLabelContraseña.setText("Contraseña");
+
+        jPasswordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jPasswordFieldKeyReleased(evt);
+            }
+        });
+
+        jTextFieldUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldUsuarioKeyReleased(evt);
+            }
+        });
 
         jLabelServidorIP.setText("IP Servidor");
 
@@ -176,54 +265,69 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonLimpiarActionPerformed
 
     private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
-        // TODO add your handling code here:
-        if (jTextFieldIPServidor.getText().isEmpty()||jTextFieldIPServidor.getText().isBlank()||jTextFieldIPServidor.getText() =="" ){
-               JOptionPane.showMessageDialog(null, 
-                         "Rellena el campo IP.");
-        }else{
-            if (!jTextFieldUsuario.getText().equals("") && !jPasswordField.getText().equals("")) {
+        FormUsuarioAdmin ventanaSecundariaAdmin= new FormUsuarioAdmin();
+        FormUsuario ventanaSecundariaUser=new FormUsuario();
+        try{
+            // TODO add your handling code here:
+            if (jTextFieldIPServidor.getText().isEmpty()||jTextFieldIPServidor.getText().isBlank()||jTextFieldIPServidor.getText() =="" ){
+                   JOptionPane.showMessageDialog(null, 
+                             "Rellena el campo IP.");
+            }else{//Esta la ip rellena
+                if (!jTextFieldUsuario.getText().equals("") && !jPasswordField.getText().equals("")) {                     
+                                          
+                        conexionSocket(ventanaSecundariaAdmin, ventanaSecundariaUser);
+                        
+                        //Conexion en local
+                        /*ConexionBDLocal conexion = new ConexionBDLocal(jTextFieldIPServidor.getText());
+                        Connection dbConnection = conexion.getConexion();
 
-                Conexion conexion = new Conexion(jTextFieldIPServidor.getText());
+                        if (conexion.verificarCredencialesBDLocal(jTextFieldUsuario.getText(),jPasswordField.getText())==0){
+                            dispose();
+                            //Ofrecemos la info del objeto que podriamos guardar para enviar
+                            conexion.logInSocketsInfo(jTextFieldUsuario.getText(),jPasswordField.getText()); //Para mostrar datos de los objetos creados
+                            //Conexion por sockets
+                            //conexionSocket(ventanaSecundariaAdmin, ventanaSecundariaUser);
+                            ventanaSecundariaAdmin = new FormUsuarioAdmin ();
+                            ventanaSecundariaAdmin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            ventanaSecundariaAdmin.setLocation(x,y);
+                            ventanaSecundariaAdmin.setVisible(true);  
 
-                Connection dbConnection = conexion.getConexion();
-                             
-                if (conexion.verificarCredenciales(jTextFieldUsuario.getText(),jPasswordField.getText())==456){
-                    dispose();
-                    conexion.logInSockets(jTextFieldUsuario.getText(),jPasswordField.getText()); //Para mostrar datos de los objetos creados
-                    FormUsuarioAdmin ventanaSecundaria = new FormUsuarioAdmin ();
-                    ventanaSecundaria.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    ventanaSecundaria.setLocation(x,y);
-                    ventanaSecundaria.setVisible(true);  
-
-                }else if(conexion.verificarCredenciales(jTextFieldUsuario.getText(),jPasswordField.getText())==0){
-                    dispose();
-                    conexion.logInSockets(jTextFieldUsuario.getText(),jPasswordField.getText()); //Para mostrar datos de los objetos creados
-                    FormUsuario ventanaSecundaria = new FormUsuario ();
-                    ventanaSecundaria.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    ventanaSecundaria.setLocation(x,y);
-                    ventanaSecundaria.setVisible(true);  
-                }else {
-                JOptionPane.showMessageDialog(null, "Credenciales inválidas");
-                }  
-                             
-              
-            if(jTextFieldUsuario.getText().isEmpty()&& jPasswordField.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, 
-                      "Rellena los campos Usuario y Contraseña");
-             }
-             else{
-                if (jTextFieldUsuario.getText().isEmpty()){
-                 JOptionPane.showMessageDialog(null, 
-                          "Rellena el campo de Usuario.");
-                 }
-                 if ( jPasswordField.getText().isEmpty()){
-                     JOptionPane.showMessageDialog(null, 
-                              "Rellena el campo de Contraseña.");
+                        }else if(conexion.verificarCredencialesBDLocal(jTextFieldUsuario.getText(),jPasswordField.getText())==1){
+                            dispose();
+                            //Ofrecemos la info del objeto que podriamos guardar para enviar
+                            conexion.logInSocketsInfo(jTextFieldUsuario.getText(),jPasswordField.getText()); //Para mostrar datos de los objetos creados
+                            //Conexion por sockets
+                            //conexionSocket(ventanaSecundariaAdmin, ventanaSecundariaUser);
+                            ventanaSecundariaUser = new FormUsuario ();
+                            ventanaSecundariaUser.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            ventanaSecundariaUser.setLocation(x,y);
+                            ventanaSecundariaUser.setVisible(true);  
+                        }else if(conexion.verificarCredencialesBDLocal(jTextFieldUsuario.getText(),jPasswordField.getText())==-1){
+                            JOptionPane.showMessageDialog(null, "Credenciales inválidas");
+                        }
+                        if(ventanaSecundariaAdmin!=null|| ventanaSecundariaUser!=null){
+                            conexion.entrar(jTextFieldIPServidor.getText(),jTextFieldUsuario.getText(),jPasswordField.getText());
+                        }   
+                        if(jTextFieldUsuario.getText().isEmpty()&& jPasswordField.getText().isEmpty()){
+                        JOptionPane.showMessageDialog(null, 
+                                  "Rellena los campos Usuario y Contraseña");
+                        }else{
+                            if (jTextFieldUsuario.getText().isEmpty()){
+                             JOptionPane.showMessageDialog(null, 
+                                      "Rellena el campo de Usuario.");
+                             }
+                             if ( jPasswordField.getText().isEmpty()){
+                                 JOptionPane.showMessageDialog(null, 
+                                          "Rellena el campo de Contraseña.");
+                            } 
+                        }*/
+                    }
                 }
-            }             
+        } catch (Exception ex) {
+            Logger.getLogger(Exception.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonConfirmarActionPerformed
-    }
+    
     private void jCheckBoxVerContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxVerContraseñaActionPerformed
         // TODO add your handling code here:
         if (jCheckBoxVerContraseña.isSelected()) {
@@ -232,6 +336,19 @@ public class MainForm extends javax.swing.JFrame {
             jPasswordField.setEchoChar('*');
         }
     }//GEN-LAST:event_jCheckBoxVerContraseñaActionPerformed
+
+    private void jPasswordFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordFieldKeyReleased
+        // TODO add your handling code here:
+        habilitarBotones();
+        if(jPasswordField.getText()==""||jPasswordField.getText().isEmpty()){
+            jCheckBoxVerContraseña.setEnabled(false);
+        }
+    }//GEN-LAST:event_jPasswordFieldKeyReleased
+
+    private void jTextFieldUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldUsuarioKeyReleased
+        // TODO add your handling code here:
+        jPasswordField.setEnabled(true);
+    }//GEN-LAST:event_jTextFieldUsuarioKeyReleased
 
     /**
      * @param args the command line arguments
